@@ -53,7 +53,7 @@ public class MP3Controller {
         }
     }
 
-    public void fastforward() {
+    public void fastForward() {
         playerThread.suspend();
         forwardTime = mp3Player.getCurrentTime() + 10;
         mp3Player.stop();

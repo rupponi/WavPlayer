@@ -131,6 +131,12 @@ public class WavPlayerMain extends Application{
                if (controller.mp3Player.getSongPlayer() != null) {
                    controller.rewind();
                }
+               else {
+                   Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
+                   noSongWarning.setTitle("I Need a Song");
+                   noSongWarning.setContentText("Please select a song.");
+                   noSongWarning.showAndWait();
+               }
            }
         });
 
@@ -154,7 +160,15 @@ public class WavPlayerMain extends Application{
 
         fastForwardButton.setOnAction(new EventHandler<ActionEvent>() {
            public void handle(ActionEvent forwardSong) {
-               controller.fastforward();
+               if (controller.mp3Player.getSongPlayer() != null) {
+                   controller.fastForward();
+               }
+               else {
+                   Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
+                   noSongWarning.setTitle("I Need a Song");
+                   noSongWarning.setContentText("Please select a song.");
+                   noSongWarning.showAndWait();
+               }
            }
         });
 
