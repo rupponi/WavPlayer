@@ -29,7 +29,6 @@ import java.io.File;
 import java.nio.file.Paths;
 
 
-
 public class WavPlayerMain extends Application{
 
     MP3Controller controller = new MP3Controller();
@@ -43,13 +42,14 @@ public class WavPlayerMain extends Application{
     public void start(Stage musicStage) {
 
         //SET THE STAGE
-        musicStage.setTitle(".WavPlayer Music Player");
+        musicStage.setTitle("WavPlayer");
         musicStage.initStyle(StageStyle.TRANSPARENT);
 
         //CONTAINERS FOR ENTIRE FRONT PANEL LAYOUT
         VBox songTimer = new VBox();
         VBox buttonInterFace = new VBox();
         HBox cornerButtons = new HBox();
+        HBox playBackButtons = new HBox();
         HBox timerBox = new HBox();
         VBox container = new VBox();
         BorderPane frontPanel = new BorderPane();
@@ -68,11 +68,9 @@ public class WavPlayerMain extends Application{
         //SPACE TO CONTAIN THE PLAY.PNG / PAUSE.PNG IMAGES FOR BUTTON
         Circle playCircle = new Circle();
         playCircle.setRadius(50);
-        playCircle.maxHeight(40);
-        playCircle.maxWidth(40);
+        playCircle.maxHeight(50);
+        playCircle.maxWidth(50);
 
-        playPauseButton.setMaxHeight(40);
-        playPauseButton.setMaxWidth(40);
         playPauseButton.setShape(playCircle);
         playPauseButton.setStyle("-fx-background-color: #0a0a0a");
         playPauseButton.setTextFill(Color.WHITE);
@@ -87,6 +85,7 @@ public class WavPlayerMain extends Application{
                         ImageView pauseImageView = new ImageView(pauseView);
                         pauseImageView.setFitHeight(50.0);
                         pauseImageView.setFitWidth(50.0);
+                        playPauseButton.setStyle("-fx-background-color: linear-gradient(#0a0a0a,#00ecff)");
                         playPauseButton.setGraphic(pauseImageView);
                     }
                     else if (controller.mp3Player.getSongPlayer().getState() == Controller.Started) {//IF PLAYER IS IN STARTED STATE, RE-CLICK OF PLAY BUTTON WILL PAUSE OPERATION.
@@ -96,6 +95,7 @@ public class WavPlayerMain extends Application{
                         ImageView resumeImageView = new ImageView(resumeView);
                         resumeImageView.setFitHeight(50.0);
                         resumeImageView.setFitWidth(50.0);
+                        playPauseButton.setStyle("-fx-background-color: #0a0a0a");
                         playPauseButton.setGraphic(resumeImageView);
                     }
                 } else {//IF SONG IS NOT PICKED, POST ALERT THAT USER MUST PICK A SONG FIRST.
@@ -107,6 +107,56 @@ public class WavPlayerMain extends Application{
             }
         });
 
+
+
+        //*******REWIND BUTTON*******//
+        Button rewindButton = new Button();
+        Image rewImage = new Image(getClass().getResourceAsStream("rw.png"));
+        ImageView rewImageView = new ImageView(rewImage);
+        rewImageView.setFitHeight(40.0);
+        rewImageView.setFitWidth(40.0);
+        rewindButton.setGraphic(rewImageView);
+
+        Circle rwCircle = new Circle();
+        rwCircle.setRadius(40);
+        rwCircle.maxHeight(40);
+        rwCircle.maxWidth(40);
+
+        rewindButton.setShape(rwCircle);
+        rewindButton.setStyle("-fx-background-color: #0a0a0a");
+        rewindButton.setTextFill(Color.WHITE);
+
+        rewindButton.setOnAction(new EventHandler<ActionEvent>() {
+           public void handle(ActionEvent rewindSong) {
+               if (controller.mp3Player.getSongPlayer() != null) {
+                   controller.rewind();
+               }
+           }
+        });
+
+
+        //*******FAST FORWARD BUTTON*******//
+        Button fastForwardButton = new Button();
+        Image ffImage = new Image(getClass().getResourceAsStream("ff.png"));
+        ImageView ffImageView = new ImageView(ffImage);
+        ffImageView.setFitHeight(40.0);
+        ffImageView.setFitWidth(40.0);
+        fastForwardButton.setGraphic(ffImageView);
+
+        Circle ffCircle = new Circle();
+        ffCircle.setRadius(40);
+        ffCircle.maxHeight(40);
+        ffCircle.maxWidth(40);
+
+        fastForwardButton.setShape(ffCircle);
+        fastForwardButton.setStyle("-fx-background-color: #0a0a0a");
+        fastForwardButton.setTextFill(Color.WHITE);
+
+        fastForwardButton.setOnAction(new EventHandler<ActionEvent>() {
+           public void handle(ActionEvent forwardSong) {
+               controller.fastforward();
+           }
+        });
 
 
         //*******FILE BUTTON*******//
@@ -176,12 +226,18 @@ public class WavPlayerMain extends Application{
         });
 
 
+        //Container for holding the song playback buttons.
+        playBackButtons.setAlignment(Pos.BASELINE_CENTER);
+        playBackButtons.setPadding(new Insets(0,20,0,20));
+        playBackButtons.setSpacing(40);
+        playBackButtons.getChildren().addAll(rewindButton,playPauseButton,fastForwardButton);
+
 
         //Formats the box that holds the play button and file access button. They will be put in a horizontal order.
         buttonInterFace.setAlignment(Pos.BASELINE_CENTER);
         buttonInterFace.setPadding(new Insets(0,20,0,20));
         buttonInterFace.setSpacing(30);
-        buttonInterFace.getChildren().addAll(playPauseButton,fileButton);
+        buttonInterFace.getChildren().addAll(playBackButtons,fileButton);
 
 
         //*******MINIMIZE BUTTON*******//
@@ -260,7 +316,7 @@ public class WavPlayerMain extends Application{
         //This timer box will hold the current song time progression.
         TextArea timer = controller.mp3Player.getTimer();
         timer.setMinHeight(24);
-        timer.setMaxWidth(70);
+        timer.setMinWidth(70);
 
         timerBox.setAlignment(Pos.BASELINE_CENTER);
         timerBox.getChildren().addAll(startTime,controller.mp3Player.getTimeSlider(),endTime);
@@ -299,12 +355,7 @@ public class WavPlayerMain extends Application{
         frontPanel.setStyle("-fx-background-color: linear-gradient(#afafaf,#000000)");
 
         Scene mainScene = new Scene(frontPanel,720,350);
-
-
         musicStage.setScene(mainScene);
         musicStage.show();
-
-
     }
-
 }

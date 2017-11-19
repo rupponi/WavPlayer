@@ -2,7 +2,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 import javafx.scene.control.Slider;
 
-import javafx.geometry.Insets;
 import java.nio.file.Path;
 import java.io.File;
 
@@ -122,9 +121,6 @@ public class MP3Player implements Runnable {
     }
 
 
-    public long getStartingTime() {
-        return startingTime;
-    }
     public void setStartingTime(long newStartingTime) {
         startingTime = newStartingTime;
     }
@@ -133,24 +129,15 @@ public class MP3Player implements Runnable {
     public long getCurrentTime() {
         return currentTime;
     }
-    public void setCurrentTime(long newCurrentTime) {
-        currentTime = newCurrentTime;
-    }
 
 
     public TextArea getTimer() {
         return timer;
     }
-    public void setTimer(TextArea newTimer) {
-        timer = newTimer;
-    }
 
 
     public Slider getTimeSlider() {
         return timeSlider;
-    }
-    public void setTimeSlider(Slider newTimeSlider) {
-        timeSlider = newTimeSlider;
     }
 
 
