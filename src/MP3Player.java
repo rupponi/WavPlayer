@@ -154,7 +154,12 @@ public class MP3Player implements Runnable {
 
             currentTime = (System.currentTimeMillis()/1000)-startingTime;
             if (currentTime != pastTime) {
-                output = String.format("%d:%02d/%d:%02d",currentTime/60,currentTime-(currentTime/60)*60, songTime/60,songTime-(songTime/60)*60);
+                if (songTime < 3600) {
+                    output = String.format("%d:%02d/%d:%02d", currentTime / 60, currentTime - (currentTime / 60) * 60, songTime / 60, songTime - (songTime / 60) * 60);
+                }
+                if (songTime >= 3600) {
+                    output = String.format("%d:%02d:%02d/%d:%02d:%02d", currentTime / 3600, (currentTime / 60 - (currentTime / 3600) * 60) / 60, currentTime - (currentTime / 60) * 60, songTime / 3600, (songTime / 60 - (songTime / 3600) * 60), songTime - (songTime / 60) * 60);
+                }
                 timer.setText(output);
                 if (resetNeeded) {
                     startingTime = System.currentTimeMillis()/1000;

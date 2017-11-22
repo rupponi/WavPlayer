@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -34,6 +35,8 @@ public class WavPlayerMain extends Application{
     MP3Controller controller = new MP3Controller();
     static FileSelector selector = new FileSelector();
     MP3Converter mp3ToWavConverter = new MP3Converter();
+    private static double offsetX = 0;
+    private static double offsetY = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -229,7 +232,7 @@ public class WavPlayerMain extends Application{
                         controller.mp3Player.setSongTime(((int) (controller.mp3Player.getSongFrames() / controller.mp3Player.getFrameSpeed())));
 
                         controller.mp3Player.getTimeSlider().setMax((int) controller.mp3Player.getSongTime());
-                        endTime.setText(String.format("%d:%02d", controller.mp3Player.getSongTime() / 60, controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
+                        endTime.setText(String.format("%d:%02d:%02d", controller.mp3Player.getSongTime() / 3600, (controller.mp3Player.getSongTime()) / 60 - (controller.mp3Player.getSongTime() / 3600) * 60, controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
 
                         selector.importFinished = false;
                     } catch (Exception ex) {
@@ -259,7 +262,7 @@ public class WavPlayerMain extends Application{
         minimizeButton.setText("-");
         minimizeButton.setMinHeight(25);
         minimizeButton.setMinWidth(50);
-        minimizeButton.setStyle("-fx-background-color: #4d4d4e");
+        minimizeButton.setStyle("-fx-background-color: #000000");
         minimizeButton.setTextFill(Color.WHITE);
 
         //MINIMIZE BUTTON LISTENER
@@ -276,7 +279,7 @@ public class WavPlayerMain extends Application{
         fullScreenButton.setMinHeight(25);
         fullScreenButton.setMinWidth(50);
         fullScreenButton.setTextFill(Color.WHITE);
-        fullScreenButton.setStyle("-fx-background-color: #4d4d4e");
+        fullScreenButton.setStyle("-fx-background-color: #000000");
 
         //FULL SCREEN BUTTON LISTENER//
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -324,30 +327,49 @@ public class WavPlayerMain extends Application{
         startTime.setText("0:00");
         startTime.setTextFill(Color.WHITE);
 
-        endTime.setText(String.format("%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
+        endTime.setText(String.format("%d:%02d:%02d", controller.mp3Player.getSongTime() / 3600, (controller.mp3Player.getSongTime()) / 60 - (controller.mp3Player.getSongTime() / 3600) * 60, controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
         endTime.setTextFill(Color.WHITE);
 
         //This timer box will hold the current song time progression.
         TextArea timer = controller.mp3Player.getTimer();
-        timer.setMinHeight(24);
-        timer.setMinWidth(70);
+        timer.setMinHeight(28);
+        timer.setMinWidth(120);
+        timer.setFont(Font.font("arial",14));
 
         timerBox.setAlignment(Pos.BASELINE_CENTER);
         timerBox.getChildren().addAll(startTime,controller.mp3Player.getTimeSlider(),endTime);
 
         //Formats panel holding the custom minimize, fullscreen, and close buttons on the top right.
         cornerButtons.setAlignment(Pos.TOP_RIGHT);
-        cornerButtons.setMaxHeight(30);
+        cornerButtons.setMinHeight(28);
         cornerButtons.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.NONE,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-        cornerButtons.setStyle("-fx-background-color: #4d4d4e");
+        cornerButtons.setStyle("-fx-background-color: #000000");
         cornerButtons.getChildren().addAll(minimizeButton,fullScreenButton,exitButton);
+
+
+        cornerButtons.setOnMousePressed(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent ms) {
+                offsetX = musicStage.getX() - ms.getScreenX();
+                offsetY = musicStage.getY() - ms.getScreenY();
+            }
+        });
+        cornerButtons.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent ms) {
+                musicStage.setX(ms.getScreenX() + offsetX);
+                musicStage.setY(ms.getScreenY() + offsetY);
+            }
+        });
 
         //Add the slider and labels along with the song timer text bos to the songTimer VBox. They will be put in vertical order.
         songTimer.getChildren().addAll(timer,timerBox);
         songTimer.setPadding(new Insets(0,20,0,20));
 
-        controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d",controller.mp3Player.getSongTime()/60,controller.mp3Player.getSongTime()-(controller.mp3Player.getSongTime()/60)*60));
-
+        if (controller.mp3Player.getSongTime() < 3600) {
+            controller.mp3Player.getTimer().setText(String.format("0:00/%d:%02d", controller.mp3Player.getSongTime() / 60, controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
+        }
+        if (controller.mp3Player.getSongTime() >= 3600) {
+            controller.mp3Player.getTimer().setText(String.format("%d:%02d:%02d/%d:%02d:%02d", controller.mp3Player.getCurrentTime() / 3600, (controller.mp3Player.getCurrentTime() / 60 - (controller.mp3Player.getCurrentTime() / 3600) * 60) / 60, controller.mp3Player.getCurrentTime() - (controller.mp3Player.getCurrentTime() / 60) * 60, controller.mp3Player.getSongTime() / 3600, (controller.mp3Player.getSongTime() / 60 - (controller.mp3Player.getSongTime() / 3600) * 60), controller.mp3Player.getSongTime() - (controller.mp3Player.getSongTime() / 60) * 60));
+        }
 
         Label playerTitle = new Label(".WavPlayer");
         playerTitle.setMinHeight(50);
