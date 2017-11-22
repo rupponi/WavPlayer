@@ -259,7 +259,7 @@ public class WavPlayerMain extends Application{
         minimizeButton.setText("-");
         minimizeButton.setMinHeight(25);
         minimizeButton.setMinWidth(50);
-        minimizeButton.setStyle("-fx-background-color: #4d4d4e");
+        minimizeButton.setStyle("-fx-background-color: #000000");
         minimizeButton.setTextFill(Color.WHITE);
 
         //MINIMIZE BUTTON LISTENER
@@ -276,7 +276,7 @@ public class WavPlayerMain extends Application{
         fullScreenButton.setMinHeight(25);
         fullScreenButton.setMinWidth(50);
         fullScreenButton.setTextFill(Color.WHITE);
-        fullScreenButton.setStyle("-fx-background-color: #4d4d4e");
+        fullScreenButton.setStyle("-fx-background-color: #000000");
 
         //FULL SCREEN BUTTON LISTENER//
         fullScreenButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -337,9 +337,9 @@ public class WavPlayerMain extends Application{
 
         //Formats panel holding the custom minimize, fullscreen, and close buttons on the top right.
         cornerButtons.setAlignment(Pos.TOP_RIGHT);
-        cornerButtons.setMaxHeight(30);
+        cornerButtons.setMinHeight(28);
         cornerButtons.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.NONE,CornerRadii.EMPTY,BorderWidths.DEFAULT)));
-        cornerButtons.setStyle("-fx-background-color: #4d4d4e");
+        cornerButtons.setStyle("-fx-background-color: #000000");
         cornerButtons.getChildren().addAll(minimizeButton,fullScreenButton,exitButton);
 
         //Add the slider and labels along with the song timer text bos to the songTimer VBox. They will be put in vertical order.
