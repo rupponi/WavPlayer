@@ -346,7 +346,6 @@ public class WavPlayerMain extends Application{
         cornerButtons.setStyle("-fx-background-color: #000000");
         cornerButtons.getChildren().addAll(minimizeButton,fullScreenButton,exitButton);
 
-
         cornerButtons.setOnMousePressed(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent ms) {
                 offsetX = musicStage.getX() - ms.getScreenX();
