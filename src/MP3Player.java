@@ -30,7 +30,6 @@ public class MP3Player implements Runnable {
     private boolean resetNeeded;
 
 
-
     protected MP3Player() {
         status = true;
         resetNeeded = false;

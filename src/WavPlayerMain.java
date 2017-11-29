@@ -133,6 +133,12 @@ public class WavPlayerMain extends Application{
            public void handle(ActionEvent rewindSong) {
                if (controller.mp3Player.getSongPlayer() != null) {
                    controller.rewind();
+                   Image pauseView = new Image(getClass().getResourceAsStream("pause.png"));
+                   ImageView pauseImageView = new ImageView(pauseView);
+                   pauseImageView.setFitHeight(50.0);
+                   pauseImageView.setFitWidth(50.0);
+                   playPauseButton.setStyle("-fx-background-color: linear-gradient(#0a0a0a,#00ecff)");
+                   playPauseButton.setGraphic(pauseImageView);
                }
                else {
                    Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
@@ -165,6 +171,12 @@ public class WavPlayerMain extends Application{
            public void handle(ActionEvent forwardSong) {
                if (controller.mp3Player.getSongPlayer() != null) {
                    controller.fastForward();
+                   Image pauseView = new Image(getClass().getResourceAsStream("pause.png"));
+                   ImageView pauseImageView = new ImageView(pauseView);
+                   pauseImageView.setFitHeight(50.0);
+                   pauseImageView.setFitWidth(50.0);
+                   playPauseButton.setStyle("-fx-background-color: linear-gradient(#0a0a0a,#00ecff)");
+                   playPauseButton.setGraphic(pauseImageView);
                }
                else {
                    Alert noSongWarning = new Alert(Alert.AlertType.WARNING);
