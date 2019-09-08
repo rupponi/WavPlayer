@@ -10,4 +10,4 @@
 #### jave-1.0.2.jar
 #### jmf-2.1.1e.jar
 
-#### After this, make sure to set the file path of the file you want to play in the MP3Player source file where indicated. This is only temporary until integration with File Explorer is added.
+#### Update 2019: Checking for any deprecations to keep this old thing going for the memories.
