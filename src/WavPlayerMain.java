@@ -39,7 +39,7 @@ public class WavPlayerMain extends Application{
     private static double offsetY = 0;
 
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(args);
     }
 
     public void start(Stage musicStage) {
