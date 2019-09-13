@@ -32,11 +32,12 @@ import java.nio.file.Paths;
 
 public class WavPlayerMain extends Application{
 
-    MP3Controller controller = new MP3Controller();
-    static FileSelector selector = new FileSelector();
-    MP3Converter mp3ToWavConverter = new MP3Converter();
+    private MP3Controller controller = new MP3Controller();
+    private static FileSelector selector = new FileSelector();
+    private MP3Converter mp3ToWavConverter = new MP3Converter();
     private static double offsetX = 0;
     private static double offsetY = 0;
+    private static Label startTime, endTime;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -56,13 +57,13 @@ public class WavPlayerMain extends Application{
         HBox timerBox = new HBox();
         VBox container = new VBox();
         BorderPane frontPanel = new BorderPane();
-        Label startTime = new Label();
-        Label endTime = new Label();
+        startTime = new Label();
+        endTime = new Label();
 
 
         //******* PLAY/PAUSE BUTTON *******//
         Button playPauseButton = new Button();
-        Image playImage = new Image(getClass().getResourceAsStream("play.png"));
+        Image playImage = new Image(getClass().getResourceAsStream("img/play.png"));
         ImageView playImageView = new ImageView(playImage);
         playImageView.setFitHeight(50.0);
         playImageView.setFitWidth(50.0);
@@ -84,7 +85,7 @@ public class WavPlayerMain extends Application{
                 if (controller.mp3Player.getSongPlayer() != null) {//IF THERE IS A LOADED SONG, PLAYER WILL NOT BE NULL.
                     if ((controller.mp3Player.getSongPlayer().getState() != Controller.Started)) {
                         controller.play();
-                        Image pauseView = new Image(getClass().getResourceAsStream("pause.png"));
+                        Image pauseView = new Image(getClass().getResourceAsStream("img/pause.png"));
                         ImageView pauseImageView = new ImageView(pauseView);
                         pauseImageView.setFitHeight(50.0);
                         pauseImageView.setFitWidth(50.0);
@@ -94,7 +95,7 @@ public class WavPlayerMain extends Application{
                     else if (controller.mp3Player.getSongPlayer().getState() == Controller.Started) {//IF PLAYER IS IN STARTED STATE, RE-CLICK OF PLAY BUTTON WILL PAUSE OPERATION.
                         controller.pause();
 
-                        Image resumeView = new Image(getClass().getResourceAsStream("play.png"));
+                        Image resumeView = new Image(getClass().getResourceAsStream("img/play.png"));
                         ImageView resumeImageView = new ImageView(resumeView);
                         resumeImageView.setFitHeight(50.0);
                         resumeImageView.setFitWidth(50.0);
@@ -114,8 +115,7 @@ public class WavPlayerMain extends Application{
 
         //*******REWIND BUTTON*******//
         Button rewindButton = new Button();
-        Image rewImage = new Image(getClass().getResourceAsStream("rw.png"));
-        ImageView rewImageView = new ImageView(rewImage);
+        ImageView rewImageView = new ImageView(new Image(getClass().getResourceAsStream("img/rw.png")));
         rewImageView.setFitHeight(40.0);
         rewImageView.setFitWidth(40.0);
         rewindButton.setGraphic(rewImageView);
@@ -133,7 +133,7 @@ public class WavPlayerMain extends Application{
            public void handle(ActionEvent rewindSong) {
                if (controller.mp3Player.getSongPlayer() != null) {
                    controller.rewind();
-                   Image pauseView = new Image(getClass().getResourceAsStream("pause.png"));
+                   Image pauseView = new Image(getClass().getResourceAsStream("img/pause.png"));
                    ImageView pauseImageView = new ImageView(pauseView);
                    pauseImageView.setFitHeight(50.0);
                    pauseImageView.setFitWidth(50.0);
@@ -152,7 +152,7 @@ public class WavPlayerMain extends Application{
 
         //*******FAST FORWARD BUTTON*******//
         Button fastForwardButton = new Button();
-        Image ffImage = new Image(getClass().getResourceAsStream("ff.png"));
+        Image ffImage = new Image(getClass().getResourceAsStream("img/ff.png"));
         ImageView ffImageView = new ImageView(ffImage);
         ffImageView.setFitHeight(40.0);
         ffImageView.setFitWidth(40.0);
@@ -171,7 +171,7 @@ public class WavPlayerMain extends Application{
            public void handle(ActionEvent forwardSong) {
                if (controller.mp3Player.getSongPlayer() != null) {
                    controller.fastForward();
-                   Image pauseView = new Image(getClass().getResourceAsStream("pause.png"));
+                   Image pauseView = new Image(getClass().getResourceAsStream("img/pause.png"));
                    ImageView pauseImageView = new ImageView(pauseView);
                    pauseImageView.setFitHeight(50.0);
                    pauseImageView.setFitWidth(50.0);
@@ -200,7 +200,7 @@ public class WavPlayerMain extends Application{
                 if ((controller.mp3Player.getSongPlayer() != null) && (controller.mp3Player.getSongPlayer().getState() == Player.Started)) {
                     controller.pause();
 
-                    Image resumeView = new Image(getClass().getResourceAsStream("play.png"));
+                    Image resumeView = new Image(getClass().getResourceAsStream("img/play.png"));
                     ImageView resumeImageView = new ImageView(resumeView);
                     resumeImageView.setFitHeight(50.0);
                     resumeImageView.setFitWidth(50.0);
